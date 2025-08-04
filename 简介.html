@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>白晨简介</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 0;
+            background: url('https://p0.ssl.qhimgs1.com/t041ca55a20094db52a.webp') no-repeat center center;
+            background-size: cover;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .info-item {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 15px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            line-height: 1.5;
+        }
+        
+        h3 {
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 17px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            line-height: 1.5;
+        }
+        
+        .title-name {
+            margin-bottom: 10px;
+            color: #fff;
+            font-size: 17px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            line-height: 1.5;
+        }
+        
+        #runtime {
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            margin: 25px 0;
+        }
+      .btn {
+            display: block;
+            width: 80%;
+            margin: 30px auto;
+            padding: 15px;
+            background: linear-gradient(90deg, rgba(140, 100, 230, 0.7), rgba(90, 160, 250, 0.7));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 分界线样式 */
+.divider {
+width: 100%;
+height: 1px;
+background-color: rgba(255,255, 255, 0.3);margin: 20px 0;
+}
+        
+        .btn:hover {
+            background: linear-gradient(90deg, rgba(160, 120, 240, 0.8), rgba(110, 180, 255, 0.8));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>白晨简介</h1>
+        
+        <!-- 白色分界线 -->
+       <div class="divider"></div>
+       <div class="content">
+        
+        <h3>服主</h3>
+        <div class="title-name">白晨服务器(从开号五次)</div>
+        <h3>投资</h3>
+        <div class="title-name">白晨本晨6</div>
+        <!-- 白色分界线 -->
+        <div class="divider"></div>
+        <div class="content">
+        <div class="info-item">开服日期：2025年07月15日 08:00</div>
+        <div class="info-item">总玩家数：接近2000名</div>
+        <div id="runtime">服务器已运行 动态占位 天 动态占位:动态占位:动态占位</div>
+        <div class="info-item">服务器QQ交流群：1049786121</div>
+        
+        <button class="btn" onclick="location.href=location.replace('index.html')">返回首页</button>
+    </div>
+
+    <script>
+        // 动态显示服务器已运行时间
+        const startTime = new Date('2025-07-15T08:00:00').getTime();
+        const runtimeElement = document.getElementById('runtime');
+        
+        function updateRuntime() {
+            const currentTime = new Date().getTime();
+            const elapsedTime = currentTime - startTime;
+            
+            const days = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((elapsedTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+            
+            // 使用 padStart 方法确保个位数前面补零
+            const formattedHours = hours.toString().padStart(2, '0');
+            const formattedMinutes = minutes.toString().padStart(2, '0');
+            const formattedSeconds = seconds.toString().padStart(2, '0');
+            
+            runtimeElement.textContent = `服务器已运行 ${days} 天 ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+            
+            setTimeout(updateRuntime, 1000);
+        }
+        
+        updateRuntime();
+    </script>
+</body>
+</html>
