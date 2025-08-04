@@ -18,85 +18,181 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            background: url('https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
-            background-size: cover;
+            margin: 0;
         }
         
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
             border-radius: 20px;
             padding: 40px;
             width: 80%;
-            max-width: 800px;
+            max-width: 700px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         h1 {
-            font-size: 20px;
-            margin-bottom: 20px;
+            font-size: 25px;
+            margin-bottom: 12px;
             color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
         
         p {
-            font-size: 16px;
+            font-size: 17px;
             margin-bottom: 40px;
-            color: rgba(255, 255, 255, 0.7); /* 副标题灰色质感 */
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); /* 增加阴影效果 */
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
         }
-      .btn {
+        
+        .btn {
             display: block;
             width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            background-color: rgba(255, 255, 255, 0.3);
+            padding: 16px;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, rgba(140, 100, 230, 0.7), rgba(90, 160, 250, 0.7));
             color: white;
             text-decoration: none;
-            border-radius: 50px;
+            border-radius: 40px;
             font-size: 18px;
+            font-weight: 500;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: none;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            outline: none; /* 去除点击按钮时的蓝色框 */
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
         }
-        
         .btn:hover {
-            background-color: rgba(255, 255, 255, 0.4);
+            background: linear-gradient(90deg, rgba(160, 120, 240, 0.8), rgba(110, 180, 255, 0.8));
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-        }
-         .btn:focus {
-            outline: none;
-            box-shadow: none;
-        }
-         .btn:active {
-            outline: none;
-            box-shadow: none;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
         }
         
-        
-    
+        #dynamic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
-        <!-- 主容器 -->
-       <div class="container">
+    <canvas id="dynamic-bg"></canvas>
+    
+    <div class="container">
         <h1>欢迎来到白晨服务器</h1>
-        <p>白晨服务器官方网页，保存了历年重大更新</p>
+        <p>白晨服务器官方网页</p>
         
-        <button class="btn" onclick="location.href='hhhhh'">白晨简介</button>
+        <button class="btn" onclick="location.href='简介.html'">白晨简介</button>
         <button class="btn" onclick="location.href='https://example.com'">白晨重大更新</button>
-      </div>
-    
-        <!-- 音频元素 -->
-        <audio src="bx.mp3" autoplay loop></audio>
-   
-    
- 
-    </script>
+        <button class="btn" onclick="location.href='https://example.com'">白晨工作人员名单</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('dynamic-bg');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+       
+        const stars = [];
+        for (let i = 0; i < 150; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.5,
+                opacity: Math.random()
+            });
+        }
+        
+        // 111
+        class Meteor {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = canvas.width + Math.random() * 200; // 初始位置在屏幕右侧
+                this.y = Math.random() * (canvas.height / 2); // 初始位置在屏幕的上半部分
+                this.length = Math.random() * 50 + 80; // 流星长度
+                this.speed = Math.random() * 2 + 4; // 流星速度
+                this.opacity = Math.random() * 0.5 + 0.5; // 流星透明度
+                this.angle = 45; // 固定角度为45度（右上到左下）
+                this.active = false;
+                this.lastActiveTime = 0;
+            }
+            
+            update(currentTime) {
+                // 控制流星出现的间隔时间（3-5秒）
+                if (!this.active && currentTime - this.lastActiveTime > 3000 + Math.random() * 2000) { 
+                    this.active = true;
+                    this.lastActiveTime = currentTime;
+                }
+                
+                if (this.active) {
+                    // 计算流星终点
+                    const endX = this.x - this.length * Math.cos(this.angle * Math.PI / 180);
+                    const endY = this.y + this.length * Math.sin(this.angle * Math.PI / 180);
+                    
+                    // 绘制流星
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(endX, endY);
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    
+                    this.x -= this.speed * Math.cos(this.angle * Math.PI / 180);
+                    this.y += this.speed * Math.sin(this.angle * Math.PI / 180);
+                    
+                    //如果流星划出屏幕，则重置
+                    if (this.x < -this.length) {
+                    this.reset();
+                }
+            }
+         }
+        }
+        const meteors = Array(3).fill().map(() => new Meteor());
+
+function drawBackground() {
+const currentTime = Date.now();
+
+
+//深蓝色背景
+ctx.fillStyle = '#0a122e';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+
+//绘制星星
+stars.forEach(star => {
+  ctx.beginPath();
+  ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+  ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`; // 反引号 + 正确变量名
+  ctx.fill();                                             // 正确拼写
+});
+
+//更新并绘制流星
+meteors.forEach(meteor => {
+meteor.update(currentTime);
+});
+     requestAnimationFrame(drawBackground);
+   }
+    drawBackground();
+  </script>
 </body>
 </html>
