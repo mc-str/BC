@@ -89,9 +89,35 @@
             height: 100%;
             z-index: 1;
         }
+/* 弹窗 */
+    #prompt{position:fixed;top:0;left:0;width:100%;height:100%;
+      background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:9999;}
+    .prompt-box{background:#fff;color:#222;border-radius:12px;padding:30px 40px;text-align:center;}
+    .prompt-btn{margin:10px 5px;padding:10px 25px;border:none;border-radius:20px;font-size:16px;cursor:pointer;}
+    .play{background:#8c64ec;color:#fff;}
+    
+    .cancel{background:#ccc;color:#222;}
+    label{margin-top:10px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#555;}
+        
     </style>
 </head>
 <body>
+    
+<!-- 弹窗（每次都会出现） -->
+  <div id="prompt">
+    <div class="prompt-box">
+      <h2>是否开启背景音乐？</h2>
+      <button class="prompt-btn play" onclick="playMusic()">播放</button>
+      <button class="prompt-btn cancel" onclick="closePrompt()">取消</button>
+    </div>
+  </div>
+
+    
+    <!-- 音乐（默认静音） -->
+  <audio id="bgMusic" muted loop>
+    <source src="b.mp3" type="audio/mpeg">
+  </audio>
+
     <canvas id="dynamic-bg"></canvas>
     
     <div class="container">
@@ -193,6 +219,20 @@ meteor.update(currentTime);
      requestAnimationFrame(drawBackground);
    }
     drawBackground();
+const music = document.getElementById('bgMusic');
+    const prompt = document.getElementById('prompt');
+
+    function playMusic() {
+      music.muted = false;
+      music.play();
+      closePrompt();
+    }
+
+    function closePrompt() {
+      prompt.style.display = 'none';
+    }
+
+        
   </script>
 </body>
 </html>
